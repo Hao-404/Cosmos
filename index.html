@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Cosmos Music</title>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Playerbody -->
+    <div class="play_wrap" id="player">
+      <div class="search_bar">
+        <img src="images/player_title.png" alt="" />
+        <!-- Search -->
+        <input type="text" autocomplete="off" v-model="query" @keyup.enter="searchMusic" />
+      </div>
+      <div class="center_con">
+        <div class='song_wrapper'>
+          <ul class="song_list">
+            <li v-for="item in musicList">
+              <a href="javascript:;" @click="playMusic(item.id)"></a> 
+              <b>{{ item.name }}</b> 
+              <span v-if="item.mvid!=0" @click="playMV(item.mvid)"><i></i></span>
+            </li>
+          </ul>
+          <img src="images/line.png" class="switch_btn" alt="">
+        </div>
+        <!-- Song info -->
+        <div class="player_con" :class="{playing:isPlaying}">
+          <img src="images/player_bar.png" class="play_bar" />
+          <img src="images/disc.png" class="disc autoRotate" />
+          <img :src="musicCover" class="cover autoRotate" />
+        </div>
+        <!-- comments -->
+        <div class="comment_wrapper">
+          <h5 class='title'>Comments</h5>
+          <div class='comment_list'>
+            <dl v-for="item in messages">
+              <dt><img src="images/icon.jpg" alt=""></dt>
+              <dd class="name">{{ item.id}}</dd>
+              <dd class="detail">
+                {{ item.message }}
+              </dd>
+            </dl>
+            <div id="app" class=""form_box>
+              <form action="">
+                <input class="user" type="text" placeholder="User" v-model="comment.id">
+                <input class="content" type="text" placeholder="Comment" v-model="comment.message">
+              </form>
+              <button class="but" @click="onSubmit()">Submmit</button>
+            </div>
+          </div>
+          <img src="images/line.png" class="right_line">
+        </div>
+      </div>
+      <div class="audio_con">
+        <audio ref='audio' @play="play" @pause="pause" :src="musicUrl" controls autoplay loop class="myaudio"></audio>
+      </div>
+      <div class="video_con" v-show="isShow" style="display: none;">
+        <video :src="mvUrl" controls="controls"></video>
+        <div class="mask" @click="hide"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
